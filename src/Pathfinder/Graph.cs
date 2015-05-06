@@ -4,41 +4,71 @@ namespace Pathfinder
 {
     public class Graph
     {
-        private readonly Node[,] _graph;
+        private readonly Dictionary<char, Dictionary<char, int>> _vertices = new Dictionary<char, Dictionary<char, int>>();
 
-        public Graph(Node[,] graph)
+        public void AddVertex(char name, Dictionary<char, int> edges)
         {
-            _graph = graph;
+            _vertices[name] = edges;
         }
 
-        public List<Node> FindPath(Location start, Location end)
+        public List<char> ShortestPath(char start, char finish)
         {
-            var startNode = _graph[start.X, start.Y];
-            var endNode = _graph[end.X, end.Y];
+            var previous = new Dictionary<char, char>();
+            var distances = new Dictionary<char, int>();
+            var nodes = new List<char>();
 
-            return BreadthFirstSearch(new List<Node>(), startNode, endNode);
-        }
+            List<char> path = null;
 
-        private List<Node> BreadthFirstSearch(List<Node> nodes, Node currentNode, Node endNode)
-        {
-            nodes.Add(currentNode);
+            foreach (var vertex in _vertices)
+            {
+                if (vertex.Key == start)
+                {
+                    distances[vertex.Key] = 0;
+                }
+                else
+                {
+                    distances[vertex.Key] = int.MaxValue;
+                }
 
-            if (currentNode == endNode)
-            {
-                return nodes;
-            }
-            
-            if (currentNode.Connections == null)
-            {
-                return null;
-            }
-            
-            foreach (var nextNode in currentNode.Connections)
-            {
-                return BreadthFirstSearch(nodes, nextNode, endNode);
+                nodes.Add(vertex.Key);
             }
 
-            return null;
+            while (nodes.Count != 0)
+            {
+                nodes.Sort((x, y) => distances[x] - distances[y]);
+
+                var smallest = nodes[0];
+                nodes.Remove(smallest);
+
+                if (smallest == finish)
+                {
+                    path = new List<char>();
+                    while (previous.ContainsKey(smallest))
+                    {
+                        path.Add(smallest);
+                        smallest = previous[smallest];
+                    }
+
+                    break;
+                }
+
+                if (distances[smallest] == int.MaxValue)
+                {
+                    break;
+                }
+
+                foreach (var neighbor in _vertices[smallest])
+                {
+                    var alt = distances[smallest] + neighbor.Value;
+                    if (alt < distances[neighbor.Key])
+                    {
+                        distances[neighbor.Key] = alt;
+                        previous[neighbor.Key] = smallest;
+                    }
+                }
+            }
+
+            return path;
         }
     }
 }

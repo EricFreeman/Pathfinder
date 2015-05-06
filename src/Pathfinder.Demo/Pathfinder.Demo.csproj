@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{60EAFC15-9650-4F3F-8DA5-607F4B46F2F6}</ProjectGuid>
+    <ProjectGuid>{9849C923-4127-437A-8573-F10B161DD9C6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pathfinder.Console</RootNamespace>
-    <AssemblyName>Pathfinder.Console</AssemblyName>
+    <RootNamespace>Pathfinder.Demo</RootNamespace>
+    <AssemblyName>Pathfinder.Demo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pathfinder\Pathfinder.csproj">
+      <Project>{7BD1EC7D-6F3B-4FC6-91BF-6ACE2E9E3ECA}</Project>
+      <Name>Pathfinder</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
