@@ -7,17 +7,29 @@ namespace Pathfinder.Demo
     {
         static void Main()
         {
-            var g = new Graph();
-            g.AddVertex('A', new Dictionary<char, int> { { 'B', 7 }, { 'C', 8 } });
-            g.AddVertex('B', new Dictionary<char, int> { { 'A', 7 }, { 'F', 2 } });
-            g.AddVertex('C', new Dictionary<char, int> { { 'A', 8 }, { 'F', 6 }, { 'G', 4 } });
-            g.AddVertex('D', new Dictionary<char, int> { { 'F', 8 } });
-            g.AddVertex('E', new Dictionary<char, int> { { 'H', 1 } });
-            g.AddVertex('F', new Dictionary<char, int> { { 'B', 2 }, { 'C', 6 }, { 'D', 8 }, { 'G', 9 }, { 'H', 3 } });
-            g.AddVertex('G', new Dictionary<char, int> { { 'C', 4 }, { 'F', 9 } });
-            g.AddVertex('H', new Dictionary<char, int> { { 'E', 1 }, { 'F', 3 } });
+            var graph = new Graph();
 
-            g.ShortestPath('A', 'H').ForEach(Console.WriteLine);
+            var a = new Point(0, 0);
+            var b = new Point(1, 0);
+            var c = new Point(2, 0);
+            var d = new Point(0, 1);
+            var e = new Point(1, 1);
+            var f = new Point(2, 1);
+            var g = new Point(0, 3);
+            var h = new Point(1, 3);
+
+            graph.AddVertex(a, new Dictionary<Point, float> { { b, 7 }, { c, 8 } });
+            graph.AddVertex(b, new Dictionary<Point, float> { { a, 7 }, { f, 2 } });
+            graph.AddVertex(c, new Dictionary<Point, float> { { a, 8 }, { f, 6 }, { g, 4 } });
+            graph.AddVertex(d, new Dictionary<Point, float> { { f, 8 } });
+            graph.AddVertex(e, new Dictionary<Point, float> { { h, 1 } });
+            graph.AddVertex(f, new Dictionary<Point, float> { { b, 2 }, { c, 6 }, { d, 8 }, { g, 9 }, { h, 3 } });
+            graph.AddVertex(g, new Dictionary<Point, float> { { c, 4 }, { f, 9 } });
+            graph.AddVertex(h, new Dictionary<Point, float> { { e, 1 }, { f, 3 } });
+
+            Console.WriteLine("Start: " + a);
+            Console.WriteLine("End: " + h);
+            graph.ShortestPath(a, h).ForEach(Console.WriteLine);
 
             Console.ReadLine();
         }

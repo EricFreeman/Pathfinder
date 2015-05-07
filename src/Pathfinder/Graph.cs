@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Pathfinder
 {
     public class Graph
     {
-        private readonly Dictionary<char, Dictionary<char, int>> _vertices = new Dictionary<char, Dictionary<char, int>>();
+        private readonly Dictionary<Point, Dictionary<Point, float>> _vertices = new Dictionary<Point, Dictionary<Point, float>>();
 
-        public void AddVertex(char name, Dictionary<char, int> edges)
+        public void AddVertex(Point name, Dictionary<Point, float> edges)
         {
             _vertices[name] = edges;
         }
 
-        public List<char> ShortestPath(char start, char finish)
+        public List<Point> ShortestPath(Point start, Point finish)
         {
-            var previous = new Dictionary<char, char>();
-            var distances = new Dictionary<char, int>();
-            var nodes = new List<char>();
+            var previous = new Dictionary<Point, Point>();
+            var distances = new Dictionary<Point, int>();
+            var nodes = new List<Point>();
 
-            List<char> path = null;
+            List<Point> path = null;
 
             foreach (var vertex in _vertices)
             {
@@ -35,14 +36,14 @@ namespace Pathfinder
 
             while (nodes.Count != 0)
             {
-                nodes.Sort((x, y) => distances[x] - distances[y]);
+                nodes.Sort((x, y) => (int)(distances[x] - distances[y]));
 
                 var smallest = nodes[0];
                 nodes.Remove(smallest);
 
-                if (smallest == finish)
+                if (smallest.Equals(finish))
                 {
-                    path = new List<char>();
+                    path = new List<Point>();
                     while (previous.ContainsKey(smallest))
                     {
                         path.Add(smallest);
@@ -62,7 +63,7 @@ namespace Pathfinder
                     var alt = distances[smallest] + neighbor.Value;
                     if (alt < distances[neighbor.Key])
                     {
-                        distances[neighbor.Key] = alt;
+                        distances[neighbor.Key] = (int)alt;
                         previous[neighbor.Key] = smallest;
                     }
                 }
