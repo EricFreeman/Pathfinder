@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Pathfinder
 {
@@ -36,7 +36,7 @@ namespace Pathfinder
 
             while (nodes.Count != 0)
             {
-                nodes.Sort((x, y) => (int)(distances[x] - distances[y]));
+                nodes.Sort((x, y) => distances[x] - distances[y]);
 
                 var smallest = nodes[0];
                 nodes.Remove(smallest);
@@ -67,6 +67,11 @@ namespace Pathfinder
                         previous[neighbor.Key] = smallest;
                     }
                 }
+            }
+
+            if (path != null)
+            {
+                path.Reverse();
             }
 
             return path;

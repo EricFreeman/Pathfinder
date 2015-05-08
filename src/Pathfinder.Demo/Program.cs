@@ -28,8 +28,8 @@ namespace Pathfinder.Demo
             graph.AddVertex(h, new Dictionary<Point, float> { { e, 1 }, { f, 3 } });
 
             Console.WriteLine("Start: " + a);
-            Console.WriteLine("End: " + h);
             graph.ShortestPath(a, h).ForEach(Console.WriteLine);
+            Console.WriteLine("End: " + h);
 
             Console.ReadLine();
         }
