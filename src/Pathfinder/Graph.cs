@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 
 namespace Pathfinder
 {
@@ -7,9 +7,20 @@ namespace Pathfinder
     {
         private readonly Dictionary<Point, Dictionary<Point, float>> _vertices = new Dictionary<Point, Dictionary<Point, float>>();
 
-        public void AddVertex(Point name, Dictionary<Point, float> edges)
+        public void AddVertex(Point point, params Point[] neighbors)
         {
-            _vertices[name] = edges;
+            var edges = new Dictionary<Point, float>();
+
+            for (var i = 0; i < neighbors.Count(); i++)
+            {
+                var neighbor = neighbors[i];
+                var distance = ((point.X - neighbor.X)*(point.X - neighbor.X) +
+                                (point.Y - neighbor.Y)*(point.Y - neighbor.Y));
+
+                edges[neighbor] = distance;
+            }
+
+            _vertices[point] = edges;
         }
 
         public List<Point> ShortestPath(Point start, Point finish)
